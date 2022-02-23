@@ -177,7 +177,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!64 &635819980
 MeshCollider:
@@ -656,8 +656,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawnRadius: 40
   enemyDelaySpawn: 1
-  enemyPrefab: {fileID: 4758606212322716208, guid: cf857436b64e1924597830e5fce231dd, type: 3}
+  enemyPrefab: {fileID: 8201881567637810448, guid: cf857436b64e1924597830e5fce231dd, type: 3}
   targetTransform: {fileID: 244059314}
+  poolMaxSize: 10
 --- !u!4 &1928910915
 Transform:
   m_ObjectHideFlags: 0

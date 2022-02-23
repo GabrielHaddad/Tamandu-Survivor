@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -11,12 +12,72 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] [Range(0.1f, 10f)] float enemyDelaySpawn = 1f;
 
     [Tooltip("Enemy gameobject to be instantiated")]
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] Enemy enemyPrefab;
 
     [Tooltip("Target to be spawn enemies around")]
     [SerializeField] Transform targetTransform;
 
+    [Tooltip("Number of reusable enemies in the scene")]
+    [SerializeField] int poolMaxSize;
+
     bool canSpawn;
+    private IObjectPool<Enemy> enemyPool;
+
+    void Awake()
+    {
+        enemyPool = new ObjectPool<Enemy>(
+            CreateEnemy,
+            OnGet,
+            OnRelease,
+            ActionOnDestroy,
+            maxSize: poolMaxSize);
+    }
+
+    public void SetPool(IObjectPool<Enemy> pool)
+    {
+        enemyPool = pool;
+    }
+
+    public IObjectPool<Enemy> GetPool()
+    {
+        return enemyPool;
+    }
+
+    Enemy CreateEnemy()
+    {
+        Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
+        float xPos = targetTransform.position.x + randomInRadius.x;
+        float zPos = targetTransform.position.z + randomInRadius.y;
+
+        Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
+
+        Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+        enemy.SetPool(enemyPool);
+        return enemy;
+    }
+
+    private void OnGet(Enemy enemy)
+    {
+        Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
+        float xPos = targetTransform.position.x + randomInRadius.x;
+        float zPos = targetTransform.position.z + randomInRadius.y;
+
+        Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
+
+        enemy.gameObject.SetActive(true);
+        enemy.transform.position = spawnPosition;
+    }
+
+    private void OnRelease(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+    }
+
+    private void ActionOnDestroy(Enemy enemy)
+    {
+        Destroy(enemy.gameObject);
+    }
 
     void OnEnable()
     {
@@ -24,21 +85,11 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnEnemies());
     }
 
-    void Update()
-    {
-
-    }
-
     IEnumerator SpawnEnemies()
     {
         while (canSpawn)
         {
-            Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
-            float xPos = targetTransform.position.x + randomInRadius.x;
-            float zPos = targetTransform.position.z + randomInRadius.y;
-
-            Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            enemyPool.Get();
             yield return new WaitForSeconds(enemyDelaySpawn);
         }
     }
