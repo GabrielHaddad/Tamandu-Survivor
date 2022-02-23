@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
@@ -30,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         RotatePlayerTowardsMouse();
     }
 
@@ -63,15 +63,4 @@ public class PlayerMovement : MonoBehaviour
 
         myRigidBody.AddForce(moveForce);
     }
-
-    void OnMove(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-    }
-
-    // void OnLook(InputValue value)
-    // {
-    //     mouseInput = value.Get<Vector2>();
-    //     //RotatePlayerToFollowMouse();
-    // }
 }
