@@ -12,12 +12,19 @@ public class EnemyAI : MonoBehaviour
     [Tooltip("Distance to stop before reaching target")]
     [SerializeField] float stoppingDistance;
 
+    Rigidbody myRigidBody;
+
+    void Awake() 
+    {
+        myRigidBody = GetComponent<Rigidbody>();
+    }
+
     void OnEnable()
     {
         targetTransform = FindObjectOfType<PlayerMovement>().transform;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         FollowTarget();
     }
@@ -27,6 +34,8 @@ public class EnemyAI : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
         if (distanceToTarget <= stoppingDistance) return;
         
-        transform.position = Vector3.MoveTowards(transform.position, targetTransform.position, enemyMoveSpeed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, targetTransform.position, enemyMoveSpeed * Time.deltaTime);
+        Vector3 lerpPos = Vector3.Lerp(transform.position, targetTransform.position, enemyMoveSpeed * Time.deltaTime);
+        myRigidBody.MovePosition(lerpPos);
     }
 }
