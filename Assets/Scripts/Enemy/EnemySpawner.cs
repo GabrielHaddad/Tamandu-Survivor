@@ -51,7 +51,7 @@ public class EnemySpawner : MonoBehaviour
 
         Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
 
-        Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
 
         enemy.SetPool(enemyPool);
         return enemy;
@@ -83,6 +83,12 @@ public class EnemySpawner : MonoBehaviour
     {
         canSpawn = true;
         StartCoroutine(SpawnEnemies());
+    }
+
+    void OnDisable()
+    {
+        canSpawn = false;
+        StopAllCoroutines();
     }
 
     IEnumerator SpawnEnemies()

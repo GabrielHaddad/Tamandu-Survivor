@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class EnemyHealth : MonoBehaviour
 {
     [Tooltip("Enemy health")]
     [SerializeField] int maxHealth = 10;
+
+    [Tooltip("Death Particle")]
+    [SerializeField] ParticleSystem deathParticle;
+
     int currentHealth;
     Enemy enemy;
 
@@ -22,12 +25,12 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        TakeDamage();
+        TakeDamage(other.GetComponent<Bullet>().Damage);
     }
 
-    void TakeDamage()
+    void TakeDamage(int damage)
     {
-        currentHealth--;
+        currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
@@ -38,5 +41,15 @@ public class EnemyHealth : MonoBehaviour
     void KillEnemy()
     {
         enemy.GetPool().Release(enemy);
+        PlayDeathEffect();
+    }
+
+    void PlayDeathEffect()
+    {
+        if (deathParticle != null)
+        {
+            ParticleSystem instance = Instantiate(deathParticle, transform.position, Quaternion.identity);
+            Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
+        }
     }
 }

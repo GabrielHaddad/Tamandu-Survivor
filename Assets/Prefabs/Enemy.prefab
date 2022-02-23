@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3893866617160589316}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMoveSpeed: 1
-  stoppingDistance: 2
+  stoppingDistance: 1
 --- !u!114 &8201881567637810448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e25ee530ff5ea64fab01153e604c33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
 --- !u!114 &-4378767893808217769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  deathParticle: {fileID: 3290761872871638268, guid: a73ea07ff61bc844784785255508977e, type: 3}
 --- !u!54 &3893866617160589316
 Rigidbody:
   m_ObjectHideFlags: 0
