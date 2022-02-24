@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4758606212322716237}
   - component: {fileID: 4758606212322716210}
   - component: {fileID: 5548380455336941577}
-  - component: {fileID: 8201881567637810448}
+  - component: {fileID: 1901624436872395766}
   - component: {fileID: -4378767893808217769}
   - component: {fileID: 3893866617160589316}
   m_Layer: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMoveSpeed: 1
   stoppingDistance: 1
---- !u!114 &8201881567637810448
+--- !u!114 &1901624436872395766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  enemyType: 1
 --- !u!114 &-4378767893808217769
 MonoBehaviour:
   m_ObjectHideFlags: 0

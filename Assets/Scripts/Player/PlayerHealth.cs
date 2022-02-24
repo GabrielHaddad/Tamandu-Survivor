@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage(other.gameObject.GetComponent<Enemy>().Damage);
+            //TakeDamage(other.gameObject.GetComponent<Enemy>().Damage);
         }
     }
 

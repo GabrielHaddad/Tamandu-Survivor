@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 6057447332641111822}
   - component: {fileID: 6057447332641111809}
   - component: {fileID: 6359677011494615158}
+  - component: {fileID: 1852036958}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -240,6 +241,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 4459324320387821449}
+--- !u!114 &1852036958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057447332641111816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4724ec28f2b744692c34f92665d3aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1001 &1358249620688581688
 PrefabInstance:
   m_ObjectHideFlags: 0

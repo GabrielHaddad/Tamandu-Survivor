@@ -15,7 +15,7 @@ public class WaveConfigSO : ScriptableObject
     public class EnemyWaveConfig
     {
         [Tooltip("Enemy GameObject")]
-        public Enemy enemyPrefab;
+        public GameObject enemyPrefab;
 
         [Tooltip("Amount of this enemy in the current wave")]
         public int enemyAmount;

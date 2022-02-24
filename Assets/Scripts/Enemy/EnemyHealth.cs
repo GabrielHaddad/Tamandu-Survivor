@@ -11,11 +11,11 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] ParticleSystem deathParticle;
 
     int currentHealth;
-    Enemy enemy;
+    EnemyBehavior enemy;
 
     void Awake() 
     {
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<EnemyBehavior>();
     }
 
     void OnEnable() 
@@ -40,7 +40,7 @@ public class EnemyHealth : MonoBehaviour
 
     void KillEnemy()
     {
-        enemy.GetPool().Release(enemy);
+        enemy.ReleaseEnemy();
         PlayDeathEffect();
     }
 

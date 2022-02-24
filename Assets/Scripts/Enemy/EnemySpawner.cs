@@ -8,17 +8,8 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Spawn enemy circle radius's size")]
     [SerializeField] [Range(1f, 50f)] float enemySpawnRadius;
 
-    // [Tooltip("Delay in secons to the enemy spawn")]
-    // [SerializeField] [Range(0.1f, 10f)] float enemyDelaySpawn = 1f;
-
-    // [Tooltip("Enemy gameobject to be instantiated")]
-    // [SerializeField] Enemy enemyPrefab;
-
     [Tooltip("Target to be spawn enemies around")]
     [SerializeField] Transform targetTransform;
-
-    [Tooltip("Number of reusable enemies in the scene")]
-    [SerializeField] int poolMaxSize;
 
     [Tooltip("List of subsequent waves")]
     [SerializeField] List<WaveConfigSO> waveConfigs;
@@ -27,52 +18,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float timeBetweenWaves = 1f;
 
     bool canSpawn;
-    IObjectPool<Enemy> enemyPool;
     WaveConfigSO currentWave;
-    Enemy currentEnemySpawned;
+    GameObject currentEnemySpawned;
+    ObjectPooler objectPooler;
 
-    void Awake()
+    void Awake() 
     {
-        enemyPool = new ObjectPool<Enemy>(
-            CreateEnemy,
-            OnGet,
-            OnRelease,
-            ActionOnDestroy,
-            maxSize: poolMaxSize);
-    }
-
-    public void SetPool(IObjectPool<Enemy> pool)
-    {
-        enemyPool = pool;
-    }
-
-    public IObjectPool<Enemy> GetPool()
-    {
-        return enemyPool;
-    }
-
-    Enemy CreateEnemy()
-    {
-        Enemy enemy = Instantiate(currentEnemySpawned, RandomPositionOnCircunference(), Quaternion.identity, transform);
-
-        enemy.SetPool(enemyPool);
-        return enemy;
-    }
-
-    private void OnGet(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(true);
-        enemy.transform.position = RandomPositionOnCircunference();
-    }
-
-    private void OnRelease(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
-    }
-
-    private void ActionOnDestroy(Enemy enemy)
-    {
-        Destroy(enemy.gameObject);
+        objectPooler = GetComponent<ObjectPooler>();    
     }
 
     void OnEnable()
@@ -101,7 +53,10 @@ public class EnemySpawner : MonoBehaviour
 
                     for (int j = 0; j < enemyAmount; j++)
                     {
-                        enemyPool.Get();
+                        EnemyBehavior enemyBehavior = currentEnemySpawned.GetComponent<EnemyBehavior>();
+                        enemyBehavior.Init(objectPooler);
+                        enemyBehavior.GetFromPool();
+
                         yield return new WaitForSeconds(currentWave.GetRandomSpawnTime());
                     }
                 }
@@ -109,6 +64,11 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(timeBetweenWaves);
             }
         }
+    }
+
+    public GameObject GetCurrentEnemySpawned()
+    {
+        return currentEnemySpawned;
     }
 
     Vector2 RandomPointOnUnitCircle(float radius)
@@ -121,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
-    Vector3 RandomPositionOnCircunference()
+    public Vector3 RandomPositionOnCircunference()
     {
         Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
         float xPos = targetTransform.position.x + randomInRadius.x;
