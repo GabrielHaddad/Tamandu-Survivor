@@ -8,11 +8,11 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Spawn enemy circle radius's size")]
     [SerializeField] [Range(1f, 50f)] float enemySpawnRadius;
 
-    [Tooltip("Delay in secons to the enemy spawn")]
-    [SerializeField] [Range(0.1f, 10f)] float enemyDelaySpawn = 1f;
+    // [Tooltip("Delay in secons to the enemy spawn")]
+    // [SerializeField] [Range(0.1f, 10f)] float enemyDelaySpawn = 1f;
 
-    [Tooltip("Enemy gameobject to be instantiated")]
-    [SerializeField] Enemy enemyPrefab;
+    // [Tooltip("Enemy gameobject to be instantiated")]
+    // [SerializeField] Enemy enemyPrefab;
 
     [Tooltip("Target to be spawn enemies around")]
     [SerializeField] Transform targetTransform;
@@ -20,8 +20,16 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Number of reusable enemies in the scene")]
     [SerializeField] int poolMaxSize;
 
+    [Tooltip("List of subsequent waves")]
+    [SerializeField] List<WaveConfigSO> waveConfigs;
+
+    [Tooltip("Time delay before spawning next wave")]
+    [SerializeField] float timeBetweenWaves = 1f;
+
     bool canSpawn;
-    private IObjectPool<Enemy> enemyPool;
+    IObjectPool<Enemy> enemyPool;
+    WaveConfigSO currentWave;
+    Enemy currentEnemySpawned;
 
     void Awake()
     {
@@ -45,13 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
     Enemy CreateEnemy()
     {
-        Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
-        float xPos = targetTransform.position.x + randomInRadius.x;
-        float zPos = targetTransform.position.z + randomInRadius.y;
-
-        Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
-
-        Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
+        Enemy enemy = Instantiate(currentEnemySpawned, RandomPositionOnCircunference(), Quaternion.identity, transform);
 
         enemy.SetPool(enemyPool);
         return enemy;
@@ -59,14 +61,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnGet(Enemy enemy)
     {
-        Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
-        float xPos = targetTransform.position.x + randomInRadius.x;
-        float zPos = targetTransform.position.z + randomInRadius.y;
-
-        Vector3 spawnPosition = new Vector3(xPos, targetTransform.position.y, zPos);
-
         enemy.gameObject.SetActive(true);
-        enemy.transform.position = spawnPosition;
+        enemy.transform.position = RandomPositionOnCircunference();
     }
 
     private void OnRelease(Enemy enemy)
@@ -95,12 +91,27 @@ public class EnemySpawner : MonoBehaviour
     {
         while (canSpawn)
         {
-            enemyPool.Get();
-            yield return new WaitForSeconds(enemyDelaySpawn);
+            foreach (WaveConfigSO wave in waveConfigs)
+            {
+                currentWave = wave;
+                for (int i = 0; i < wave.GetEnemyWaveConfigCount(); i++)
+                {
+                    currentEnemySpawned = wave.GetEnemyWaveConfig()[i].enemyPrefab;
+                    int enemyAmount = wave.GetEnemyWaveConfig()[i].enemyAmount;
+
+                    for (int j = 0; j < enemyAmount; j++)
+                    {
+                        enemyPool.Get();
+                        yield return new WaitForSeconds(currentWave.GetRandomSpawnTime());
+                    }
+                }
+
+                yield return new WaitForSeconds(timeBetweenWaves);
+            }
         }
     }
 
-    public static Vector2 RandomPointOnUnitCircle(float radius)
+    Vector2 RandomPointOnUnitCircle(float radius)
     {
         float angle = Random.Range(0f, Mathf.PI * 2);
         float x = Mathf.Sin(angle) * radius;
@@ -108,5 +119,14 @@ public class EnemySpawner : MonoBehaviour
 
         return new Vector2(x, y);
 
+    }
+
+    Vector3 RandomPositionOnCircunference()
+    {
+        Vector2 randomInRadius = RandomPointOnUnitCircle(enemySpawnRadius);
+        float xPos = targetTransform.position.x + randomInRadius.x;
+        float zPos = targetTransform.position.z + randomInRadius.y;
+
+        return new Vector3(xPos, targetTransform.position.y, zPos);
     }
 }

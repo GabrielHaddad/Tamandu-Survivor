@@ -716,10 +716,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawnRadius: 40
-  enemyDelaySpawn: 1
-  enemyPrefab: {fileID: 8201881567637810448, guid: cf857436b64e1924597830e5fce231dd, type: 3}
   targetTransform: {fileID: 244059314}
   poolMaxSize: 10
+  waveConfigs:
+  - {fileID: 11400000, guid: 49a08c16d64255c479b165df4d8a739a, type: 2}
+  - {fileID: 11400000, guid: 6f14001111b4f4846b9f0601d135393a, type: 2}
+  timeBetweenWaves: 1
 --- !u!4 &1928910915
 Transform:
   m_ObjectHideFlags: 0
