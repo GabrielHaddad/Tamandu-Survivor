@@ -5,14 +5,8 @@ using UnityEngine.Pool;
 
 public class ObjectPooler : MonoBehaviour
 {
-    [Tooltip("Number of reusable enemies in the scene")]
-    [SerializeField] int poolMaxSizeGround;
-
-    [Tooltip("Number of reusable enemies in the scene")]
-    [SerializeField] int poolMaxSizeFlying;
-
-    IObjectPool<EnemyBehavior> groundPool;
-    IObjectPool<EnemyBehavior> flyingPool;
+    [SerializeField] List<int> poolsMaxSize = new List<int>();
+    Dictionary<int, IObjectPool<EnemyBehavior>> enemyPools = new Dictionary<int, IObjectPool<EnemyBehavior>>();
 
     EnemySpawner enemySpawner;
 
@@ -20,29 +14,22 @@ public class ObjectPooler : MonoBehaviour
     {
         enemySpawner = GetComponent<EnemySpawner>();
 
-        groundPool = new ObjectPool<EnemyBehavior>(
-            CreateEnemy,
-            OnGet,
-            OnRelease,
-            ActionOnDestroy,
-            maxSize: poolMaxSizeGround);
-        
-        flyingPool = new ObjectPool<EnemyBehavior>(
-            CreateEnemy,
-            OnGet,
-            OnRelease,
-            ActionOnDestroy,
-            maxSize: poolMaxSizeFlying);
+        InitiatePools();
     }
 
-    public IObjectPool<EnemyBehavior> GetGroundPool()
+    void InitiatePools()
     {
-        return groundPool;
+        foreach (string name in System.Enum.GetNames(typeof(EnemyType)))
+        {
+            int type = (int)System.Enum.Parse(typeof(EnemyType), name);
+            enemyPools.Add(type, new ObjectPool<EnemyBehavior>(CreateEnemy, OnGet, OnRelease, ActionOnDestroy, maxSize: poolsMaxSize[type]));
+        }
     }
 
-    public IObjectPool<EnemyBehavior> GetFlyingPool()
+    public IObjectPool<EnemyBehavior> GetPool(EnemyType enemyType)
     {
-        return flyingPool;
+        int type = (int)System.Enum.Parse(typeof(EnemyType), System.Enum.GetName(typeof(EnemyType), enemyType));
+        return enemyPools[type];
     }
 
     EnemyBehavior CreateEnemy()

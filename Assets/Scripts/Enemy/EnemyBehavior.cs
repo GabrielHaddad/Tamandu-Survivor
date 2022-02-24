@@ -30,11 +30,11 @@ public class EnemyBehavior : MonoBehaviour
 
     public void ReleaseEnemy()
     {
-        currentBehavior.Release(this, objectPooler);
+        currentBehavior.Release(this, objectPooler, enemyType);
     }
 
     public void GetFromPool()
     {
-        currentBehavior.Get(objectPooler);
+        currentBehavior.Get(objectPooler, enemyType);
     }
 }

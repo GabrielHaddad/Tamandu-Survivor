@@ -6,14 +6,14 @@ using UnityEngine.Pool;
 public class EnemyFlying : Enemy
 {
 
-    public void Release(EnemyBehavior enemy, ObjectPooler objectPooler)
+    public void Release(EnemyBehavior enemy, ObjectPooler objectPooler, EnemyType enemyType)
     {
-        objectPooler.GetFlyingPool().Release(enemy);
+        objectPooler.GetPool(enemyType).Release(enemy);
     }
 
-    public void Get(ObjectPooler objectPooler)
+    public void Get(ObjectPooler objectPooler, EnemyType enemyType) 
     {
-        objectPooler.GetFlyingPool().Get();
+        objectPooler.GetPool(enemyType).Get();
     }
 
 }

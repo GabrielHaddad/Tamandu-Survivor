@@ -6,14 +6,14 @@ using UnityEngine.Pool;
 public class EnemyGround : Enemy
 {
 
-    public void Release(EnemyBehavior enemy, ObjectPooler objectPooler)
+    public void Release(EnemyBehavior enemy, ObjectPooler objectPooler, EnemyType enemyType)
     {
-        objectPooler.GetGroundPool().Release(enemy);
+        objectPooler.GetPool(enemyType).Release(enemy);
     }
 
-    public void Get(ObjectPooler objectPooler) 
+    public void Get(ObjectPooler objectPooler, EnemyType enemyType) 
     {
-        objectPooler.GetGroundPool().Get();
+        objectPooler.GetPool(enemyType).Get();
     }
 
 }

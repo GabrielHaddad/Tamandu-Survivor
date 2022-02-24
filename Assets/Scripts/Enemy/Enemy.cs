@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface Enemy
 {
-    void Release(EnemyBehavior enemy, ObjectPooler objectPooler);
-    void Get(ObjectPooler objectPooler);
+    void Release(EnemyBehavior enemy, ObjectPooler objectPooler, EnemyType enemyType);
+    void Get(ObjectPooler objectPooler, EnemyType enemyType);
 }

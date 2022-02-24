@@ -731,6 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolMaxSizeGround: 5
   poolMaxSizeFlying: 5
+  poolsMaxSize: 0500000005000000
 --- !u!1001 &6057447332532319161
 PrefabInstance:
   m_ObjectHideFlags: 0
