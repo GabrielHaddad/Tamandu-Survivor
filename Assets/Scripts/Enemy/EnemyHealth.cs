@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
 {
     [Tooltip("Enemy health")]
     [SerializeField] int maxHealth = 10;
+
+    [SerializeField] int experienceValue = 100;
 
     [Tooltip("Death Particle")]
     [SerializeField] ParticleSystem deathParticle;
@@ -25,23 +28,24 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        TakeDamage(other.GetComponent<Bullet>().Damage);
+        TakeDamage(other.GetComponent<Bullet>().Damage, other);
     }
 
-    void TakeDamage(int damage)
+    void TakeDamage(int damage, GameObject other)
     {
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
-            KillEnemy();
+            KillEnemy(other);
         }
     }
 
-    void KillEnemy()
+    void KillEnemy(GameObject other)
     {
         enemy.ReleaseEnemy();
         PlayDeathEffect();
+        other.gameObject.GetComponentInParent<PlayerLevel>().GainExperience(experienceValue);
     }
 
     void PlayDeathEffect()

@@ -35,7 +35,9 @@ public class EnemyAI : MonoBehaviour
         if (distanceToTarget <= stoppingDistance) return;
         
         //transform.position = Vector3.MoveTowards(transform.position, targetTransform.position, enemyMoveSpeed * Time.deltaTime);
-        Vector3 lerpPos = Vector3.Lerp(transform.position, targetTransform.position, enemyMoveSpeed * Time.deltaTime);
+        Vector3 newTarget = targetTransform.position;
+        newTarget.y = 0.0f;
+        Vector3 lerpPos = Vector3.Lerp(transform.position, newTarget, enemyMoveSpeed * Time.deltaTime);
         myRigidBody.MovePosition(lerpPos);
     }
 }
