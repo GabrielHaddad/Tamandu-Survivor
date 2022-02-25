@@ -16,8 +16,13 @@ public class LevelLoader : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(LoadLevel(0));
+            RestartLevel();
         }
+    }
+
+    public void RestartLevel()
+    {
+        StartCoroutine(LoadLevel(0));
     }
 
     IEnumerator LoadLevel(int sceneIndex)
