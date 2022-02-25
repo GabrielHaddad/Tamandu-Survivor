@@ -16,28 +16,7 @@ public class CameraFade : MonoBehaviour
     private Texture2D texture;
     private int direction = 0;
     private float time = 0f;
-
-    static CameraFade instance;
-
-    void ManageSingleton()
-    {
-        if (instance != null)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    void Awake() 
-    {
-        ManageSingleton();
-    }
-
+    
     public void FadeIn()
     {
         alpha = 0f;
