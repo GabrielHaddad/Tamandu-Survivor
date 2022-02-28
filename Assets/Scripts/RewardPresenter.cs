@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RewardPresenter : MonoBehaviour
 {
@@ -47,6 +48,15 @@ public class RewardPresenter : MonoBehaviour
         ActivateUI(false);
     }
 
+    void SetButtonText(int buttonIndex, IAbility ability)
+    {
+        TextMeshProUGUI[] texts = rewardButtons[buttonIndex].GetComponentsInChildren<TextMeshProUGUI>();
+
+        texts[0].text = ability.GetAbilityName();
+        
+        texts[1].text = ability.GetAbilityDescription();
+    }
+
     void ActivateUI(bool isActive)
     {
         rewardCanvas.enabled = isActive;
@@ -55,6 +65,12 @@ public class RewardPresenter : MonoBehaviour
     void UpdateUI()
     {
         abilites = rewardManager.Return3RandomRewards();
+        
+        for(int i = 0; i < abilites.Count; i++)
+        {
+            SetButtonText(i, abilites[i]);
+        }
+
         ActivateUI(true);
     }
 }
