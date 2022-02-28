@@ -15,12 +15,6 @@ public class RewardManager : MonoBehaviour
     void OnEnable() 
     {
         InitializeAbilities();
-        player.onLevelUpAction += EnableRewardChoice;
-    }
-
-    void OnDisable() 
-    {
-        player.onLevelUpAction -= EnableRewardChoice;
     }
 
     void InitializeAbilities()
@@ -28,11 +22,6 @@ public class RewardManager : MonoBehaviour
         allAbilities.Add(new SprayAbility());
         allAbilities.Add(new ShootAbility());
         allAbilities.Add(new ShootAbility());
-    }
-
-    void EnableRewardChoice()
-    {
-        Debug.Log("Gained a level");
     }
 
     public List<IAbility> Return3RandomRewards()
@@ -43,7 +32,7 @@ public class RewardManager : MonoBehaviour
         for(int i = 0; i < 3; i++)
         {
             IAbility item = abilities[Random.Range(0, abilities.Count)];
-            returnedAbilities.Add(abilities[Random.Range(0, abilities.Count)]);
+            returnedAbilities.Add(item);
             abilities.Remove(item);
         }
 

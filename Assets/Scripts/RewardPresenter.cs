@@ -46,6 +46,7 @@ public class RewardPresenter : MonoBehaviour
     {
         rewardManager.ActivateAbility(abilites[index]);
         ActivateUI(false);
+        Time.timeScale = 1;
     }
 
     void SetButtonText(int buttonIndex, IAbility ability)
@@ -72,5 +73,6 @@ public class RewardPresenter : MonoBehaviour
         }
 
         ActivateUI(true);
+        Time.timeScale = 0;
     }
 }
