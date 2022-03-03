@@ -1,6 +1,8 @@
+using System.Collections;
+
 public interface IAbility
 {
-    void Use();
+    IEnumerator Use();
     public string GetAbilityName();
 
     public string GetAbilityDescription();

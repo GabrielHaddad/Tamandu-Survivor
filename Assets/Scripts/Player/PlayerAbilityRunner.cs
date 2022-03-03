@@ -15,7 +15,7 @@ public class PlayerAbilityRunner : MonoBehaviour
     {
         foreach(IAbility ability in activeAbilities)
         {
-            ability.Use();
+            StartCoroutine(ability.Use());
         }
     }
 

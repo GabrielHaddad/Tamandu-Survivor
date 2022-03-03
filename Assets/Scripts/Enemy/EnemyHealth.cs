@@ -46,6 +46,7 @@ public class EnemyHealth : MonoBehaviour
         enemy.ReleaseEnemy();
         PlayDeathEffect();
         other.gameObject.GetComponentInParent<PlayerLevel>().GainExperience(experienceValue);
+        CameraShake.Instance.ShakeCamera(5f, 0.1f);
     }
 
     void PlayDeathEffect()

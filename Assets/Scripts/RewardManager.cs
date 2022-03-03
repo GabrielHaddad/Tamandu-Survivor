@@ -21,7 +21,7 @@ public class RewardManager : MonoBehaviour
     {
         allAbilities.Add(new SprayAbility());
         allAbilities.Add(new ShootAbility());
-        allAbilities.Add(new ShootAbility());
+        allAbilities.Add(new LightningAbility());
     }
 
     public List<IAbility> Return3RandomRewards()
