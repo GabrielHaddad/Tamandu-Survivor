@@ -28,25 +28,34 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        TakeDamage(other.GetComponent<Bullet>().Damage, other);
+        TakeDamage(other.GetComponent<Bullet>().Damage);
     }
 
-    void TakeDamage(int damage, GameObject other)
+    private void OnTriggerEnter(Collider other) 
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            TakeDamage(other.GetComponent<Bullet>().Damage);
+            Destroy(other.gameObject);
+        }
+    }
+
+    void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
-            KillEnemy(other);
+            KillEnemy();
         }
     }
 
-    void KillEnemy(GameObject other)
+    void KillEnemy()
     {
         enemy.ReleaseEnemy();
         PlayDeathEffect();
-        other.gameObject.GetComponentInParent<PlayerLevel>().GainExperience(experienceValue);
-        CameraShake.Instance.ShakeCamera(5f, 0.1f);
+        FindObjectOfType<PlayerLevel>().GainExperience(experienceValue);
+        CameraShake.Instance.ShakeCamera(2f, 0.1f);
     }
 
     void PlayDeathEffect()

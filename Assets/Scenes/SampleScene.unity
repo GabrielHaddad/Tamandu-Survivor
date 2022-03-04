@@ -2182,7 +2182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c209f828ffcecd489184b6234c08886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolsMaxSize: 0500000005000000
+  poolsMaxSize: 0a0000000a000000
 --- !u!1 &2128843834
 GameObject:
   m_ObjectHideFlags: 0

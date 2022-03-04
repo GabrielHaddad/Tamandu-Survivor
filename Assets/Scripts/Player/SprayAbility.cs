@@ -7,10 +7,15 @@ public class SprayAbility : IAbility
     string abilityName = "Spray Ability";
     string abilityDescription = "Spray that damages an area of enemies";
 
-    public IEnumerator Use()
+    public void Use(Transform playerTransform)
     {
         Debug.Log("Use Spray Ability");
-        yield return null;
+        return;
+    }
+
+    public void UpgradeAbility()
+    {
+        
     }
 
     public string GetAbilityName()

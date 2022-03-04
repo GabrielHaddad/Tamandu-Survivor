@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6057447331462428824}
   - component: {fileID: 6057447331462428825}
   - component: {fileID: 6057447331462428838}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 1852036958}
   - component: {fileID: 14213159}
   - component: {fileID: 14213160}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  hitParticle: {fileID: 3290761872871638268, guid: 9acaa0c86f0167d468755a9d443a880e, type: 3}
 --- !u!114 &14213159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +292,14 @@ PrefabInstance:
     - target: {fileID: 3403537155736886193, guid: 082d1704c9ecdd141919337a832f5d45, type: 3}
       propertyPath: m_Name
       value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403537155736886193, guid: 082d1704c9ecdd141919337a832f5d45, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403537155736886193, guid: 082d1704c9ecdd141919337a832f5d45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6645017653023910521, guid: 082d1704c9ecdd141919337a832f5d45, type: 3}
       propertyPath: m_RootOrder

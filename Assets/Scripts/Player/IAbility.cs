@@ -1,8 +1,9 @@
-using System.Collections;
+using UnityEngine;
 
 public interface IAbility
 {
-    IEnumerator Use();
+    void Use(Transform playerTransform);
+    void UpgradeAbility();
     public string GetAbilityName();
 
     public string GetAbilityDescription();

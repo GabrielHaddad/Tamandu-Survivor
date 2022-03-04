@@ -15,13 +15,23 @@ public class PlayerAbilityRunner : MonoBehaviour
     {
         foreach(IAbility ability in activeAbilities)
         {
-            StartCoroutine(ability.Use());
+            ability.Use(transform);
         }
     }
 
     public void SetActiveAbility(IAbility ability)
     {
-        activeAbilities.Add(ability);
+        IAbility foundAbility = activeAbilities.Find((activeAbility) => activeAbility == ability);
+
+        if (foundAbility != null)
+        {
+            Debug.Log("Found duplicate");
+            ability.UpgradeAbility();
+        }
+        else
+        {
+            activeAbilities.Add(ability);
+        }
     }
 
 }
