@@ -21,9 +21,10 @@ public class RewardManager : MonoBehaviour
     {
         ShootAbility shootAbility = new ShootAbility();
 
-        allAbilities.Add(new SprayAbility());
+        allAbilities.Add(new RacketAbility());
         allAbilities.Add(shootAbility);
         allAbilities.Add(new LightningAbility());
+        allAbilities.Add(new DamageAreaAbility());
 
         ActivateAbility(shootAbility);
     }

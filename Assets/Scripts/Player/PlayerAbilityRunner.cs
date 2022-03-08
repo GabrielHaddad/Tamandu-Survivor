@@ -33,5 +33,4 @@ public class PlayerAbilityRunner : MonoBehaviour
             activeAbilities.Add(ability);
         }
     }
-
 }

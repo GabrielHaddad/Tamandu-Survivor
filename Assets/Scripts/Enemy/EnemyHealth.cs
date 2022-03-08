@@ -38,9 +38,13 @@ public class EnemyHealth : MonoBehaviour
             TakeDamage(other.GetComponent<Bullet>().Damage);
             Destroy(other.gameObject);
         }
+        else if (other.CompareTag("Racket"))
+        {
+            TakeDamage(other.GetComponent<RacketMovement>().Damage);
+        }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
