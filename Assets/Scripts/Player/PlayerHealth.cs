@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,19 +10,18 @@ public class PlayerHealth : MonoBehaviour
 
     [Tooltip("Hit Particle")]
     [SerializeField] ParticleSystem hitParticle;
+    [SerializeField] float hitDelay = 1f;
     int currentHealth;
     bool isDead;
     LevelLoader levelLoader;
     bool canHit = true;
-    float hitDelay = 1f;
 
-    void Awake() 
+    public event Action onHealthChange;
+
+
+    void Awake()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
-    }
-
-    void Start() 
-    {
         currentHealth = maxHealth;
     }
 
@@ -35,7 +35,17 @@ public class PlayerHealth : MonoBehaviour
         return isDead;
     }
 
-    void OnCollisionEnter(Collision other) 
+    public int GetFullHealth()
+    {
+        return maxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy") && canHit)
         {
@@ -56,6 +66,11 @@ public class PlayerHealth : MonoBehaviour
     void TakeDamage(int damage)
     {
         currentHealth -= damage;
+
+        if (onHealthChange != null)
+        {
+            onHealthChange();
+        }
 
         if (currentHealth <= 0 && !isDead)
         {
