@@ -34,6 +34,11 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate() 
     {
+        EnemyFollowTarget();
+    }
+
+    void EnemyFollowTarget()
+    {
         float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
         if (distanceToTarget <= stoppingDistance) return;
 
