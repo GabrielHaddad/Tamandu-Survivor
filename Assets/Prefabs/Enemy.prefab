@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMoveSpeed: 1
-  stoppingDistance: 1
+  stoppingDistance: 1.5
 --- !u!114 &8670541384351107575
 MonoBehaviour:
   m_ObjectHideFlags: 0
