@@ -34,7 +34,10 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate() 
     {
-        Vector3 moveTowards = currentBehavior.FollowTarget(transform, targetTransform, stoppingDistance, moveSpeed);
+        float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
+        if (distanceToTarget <= stoppingDistance) return;
+
+        Vector3 moveTowards = currentBehavior.FollowTarget(transform, targetTransform, moveSpeed);
         myRigidBody.MovePosition(moveTowards);
     }
 
