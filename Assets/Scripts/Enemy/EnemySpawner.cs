@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
+using System;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Tooltip("Spawn enemy circle radius's size")]
-    [SerializeField] [Range(1f, 50f)] float enemySpawnRadius;
+    [SerializeField][Range(1f, 50f)] float enemySpawnRadius;
 
     [Tooltip("Target to be spawn enemies around")]
     [SerializeField] Transform targetTransform;
@@ -17,14 +17,17 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Time delay before spawning next wave")]
     [SerializeField] float timeBetweenWaves = 1f;
 
+    public event Action onLoopChange;
+
     bool canSpawn;
+    int waveLoops = 0;
     WaveConfigSO currentWave;
     GameObject currentEnemySpawned;
     ObjectPooler objectPooler;
 
-    void Awake() 
+    void Awake()
     {
-        objectPooler = GetComponent<ObjectPooler>();    
+        objectPooler = GetComponent<ObjectPooler>();
     }
 
     void OnEnable()
@@ -46,16 +49,28 @@ public class EnemySpawner : MonoBehaviour
             foreach (WaveConfigSO wave in waveConfigs)
             {
                 currentWave = wave;
+
+                if (onLoopChange != null)
+                {
+                    onLoopChange();
+                }
+
                 for (int i = 0; i < wave.GetEnemyWaveConfigCount(); i++)
                 {
-                    currentEnemySpawned = wave.GetEnemyWaveConfig()[i].enemyPrefab;
-                    int enemyAmount = wave.GetEnemyWaveConfig()[i].enemyAmount;
+                    WaveConfigSO.EnemyWaveConfig currentEnemyConfig = wave.GetEnemyWaveConfig()[i];
+                    currentEnemySpawned = currentEnemyConfig.enemyPrefab;
+                    int enemyAmount = currentEnemyConfig.enemyAmount;
 
                     for (int j = 0; j < enemyAmount; j++)
                     {
                         EnemyBehavior enemyBehavior = currentEnemySpawned.GetComponent<EnemyBehavior>();
+        
                         enemyBehavior.Init(objectPooler);
-                        enemyBehavior.GetFromPool();
+                        EnemyBehavior instance = enemyBehavior.GetFromPool();
+
+                        instance.SetEnemySpeed(currentEnemyConfig.moveSpeed + (waveLoops * currentEnemyConfig.moveSpeedIncrease));
+                        instance.SetEnemyDamage(currentEnemyConfig.enemyDamage + (waveLoops * currentEnemyConfig.enemyDamageIncrease));
+                        
 
                         yield return new WaitForSeconds(currentWave.GetRandomSpawnTime());
                     }
@@ -63,7 +78,14 @@ public class EnemySpawner : MonoBehaviour
 
                 yield return new WaitForSeconds(timeBetweenWaves);
             }
+
+            waveLoops++;
         }
+    }
+
+    public int GetCurrentWaveNumber()
+    {
+        return (waveLoops * waveConfigs.Count) + (waveConfigs.IndexOf(currentWave) + 1);
     }
 
     public GameObject GetCurrentEnemySpawned()
@@ -73,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
 
     Vector2 RandomPointOnUnitCircle(float radius)
     {
-        float angle = Random.Range(0f, Mathf.PI * 2);
+        float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
         float x = Mathf.Sin(angle) * radius;
         float y = Mathf.Cos(angle) * radius;
 

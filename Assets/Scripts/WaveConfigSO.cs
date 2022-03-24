@@ -6,7 +6,6 @@ using UnityEngine;
 public class WaveConfigSO : ScriptableObject
 {
     [SerializeField] EnemyWaveConfig[] enemyWaveConfigs;
-    [SerializeField] float moveSpeed = 5f;
     [SerializeField] float timeBetweenEnemySpawns = 1f;
     [SerializeField] float spawnTimeVariance = 0f;
     [SerializeField] float minimunSpawnTime = 0.2f;
@@ -19,6 +18,17 @@ public class WaveConfigSO : ScriptableObject
 
         [Tooltip("Amount of this enemy in the current wave")]
         public int enemyAmount;
+
+        public int enemyAmountIncrease = 0;
+
+        public float moveSpeed = 5f;
+
+        public int moveSpeedIncrease = 0;
+
+        public int enemyDamage = 10;
+
+        public int enemyDamageIncrease = 0;
+
     }
 
     public int GetEnemyWaveConfigCount()
@@ -29,11 +39,6 @@ public class WaveConfigSO : ScriptableObject
     public EnemyWaveConfig[] GetEnemyWaveConfig()
     {
         return enemyWaveConfigs;
-    }
-
-    public float GetMoveSpeed()
-    {
-        return moveSpeed;
     }
 
     public float GetRandomSpawnTime()

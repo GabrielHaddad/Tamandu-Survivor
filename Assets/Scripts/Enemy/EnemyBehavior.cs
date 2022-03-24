@@ -5,18 +5,15 @@ using UnityEngine.Pool;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    [Tooltip("Enemy damage")]
-    [SerializeField] int damage = 10;
-
-    [Tooltip("Enemy move speed")]
-    [SerializeField] float moveSpeed;
-
     [Tooltip("Distance to stop before reaching target")]
     [SerializeField] float stoppingDistance;
-    public int Damage => damage;
 
     [SerializeField] EnemyType enemyType;
     [SerializeField] Enemy currentBehavior = new EnemyGround();
+
+    float moveSpeed;
+    int damage = 10;
+    public int Damage => damage;
 
     ObjectPooler objectPooler;
     Transform targetTransform;
@@ -61,13 +58,23 @@ public class EnemyBehavior : MonoBehaviour
         this.objectPooler = objectPooler;
     }
 
+    public void SetEnemySpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
+    public void SetEnemyDamage(int damage)
+    {
+        this.damage = damage;
+    }
+
     public void ReleaseEnemy()
     {
         currentBehavior.Release(this, objectPooler, enemyType);
     }
 
-    public void GetFromPool()
+    public EnemyBehavior GetFromPool()
     {
-        currentBehavior.Get(objectPooler, enemyType);
+        return currentBehavior.Get(objectPooler, enemyType);
     }
 }

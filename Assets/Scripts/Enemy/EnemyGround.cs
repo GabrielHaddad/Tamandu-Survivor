@@ -11,9 +11,9 @@ public class EnemyGround : Enemy
         objectPooler.GetPool(enemyType).Release(enemy);
     }
 
-    public void Get(ObjectPooler objectPooler, EnemyType enemyType) 
+    public EnemyBehavior Get(ObjectPooler objectPooler, EnemyType enemyType) 
     {
-        objectPooler.GetPool(enemyType).Get();
+        return objectPooler.GetPool(enemyType).Get();
     }
     public Vector3 FollowTarget(Transform current, Transform target, float moveSpeed)
     {

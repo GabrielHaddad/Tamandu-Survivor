@@ -15,9 +15,18 @@ MonoBehaviour:
   enemyWaveConfigs:
   - enemyPrefab: {fileID: 4758606212322716208, guid: cf857436b64e1924597830e5fce231dd, type: 3}
     enemyAmount: 5
+    enemyAmountIncrease: 0
+    moveSpeed: 2
+    moveSpeedIncrease: 0
+    enemyDamage: 10
+    enemyDamageIncrease: 0
   - enemyPrefab: {fileID: 4758606212322716208, guid: 8de6bdde1e9e3f74096cf094bbbffc35, type: 3}
     enemyAmount: 5
-  moveSpeed: 5
+    enemyAmountIncrease: 0
+    moveSpeed: 5
+    moveSpeedIncrease: 0
+    enemyDamage: 10
+    enemyDamageIncrease: 0
   timeBetweenEnemySpawns: 0.5
   spawnTimeVariance: 0
   minimunSpawnTime: 0.2
