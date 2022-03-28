@@ -27,7 +27,7 @@ public class RacketMovement : MonoBehaviour
     void Update()
     {
         currentAngle += angularSpeed * Time.deltaTime;
-        Vector3 offset = new Vector3(Mathf.Sin (currentAngle) * racketRadius * moveDirection, playerTransform.position.y,  Mathf.Cos (currentAngle) * racketRadius * moveDirection);
+        Vector3 offset = new Vector3(Mathf.Sin (currentAngle) * racketRadius * moveDirection, 0f,  Mathf.Cos (currentAngle) * racketRadius * moveDirection);
         transform.position = playerTransform.position + offset;
     }
 
